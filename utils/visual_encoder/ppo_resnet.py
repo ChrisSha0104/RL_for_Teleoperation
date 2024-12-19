@@ -7,7 +7,6 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-from actor_critic_resnet import ActorCriticResNet
 from encoded_actor_critic import ActorCriticVisual
 from rsl_rl.storage import RolloutStorage
 

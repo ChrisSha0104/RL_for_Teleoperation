@@ -51,7 +51,7 @@ import torch
 from datetime import datetime
 
 from rsl_rl.runners import OnPolicyRunner
-from on_policy_runner_residual import OnPolicyRunnerCam
+from utils.visual_encoder.on_policy_runner_residual import OnPolicyRunnerResidual
 
 from omni.isaac.lab.envs import (
     DirectMARLEnv,
@@ -127,7 +127,7 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
 
     # create runner from rsl-rl
     # if hydra_args.enable_cameras: #TODO: add runner option in parser
-    runner = OnPolicyRunnerCam(env, agent_cfg.to_dict(), log_dir=log_dir, device=agent_cfg.device)
+    runner = OnPolicyRunnerResidual(env, agent_cfg.to_dict(), log_dir=log_dir, device=agent_cfg.device)
     # else:
         # runner = OnPolicyRunner(env, agent_cfg.to_dict(), log_dir=log_dir, device=agent_cfg.device)
 

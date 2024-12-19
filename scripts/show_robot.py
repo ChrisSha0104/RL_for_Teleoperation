@@ -228,17 +228,20 @@ def run_simulator(sim: sim_utils.SimulationContext, scene: InteractiveScene):
             diff_ik_controller.reset()
             diff_ik_controller.set_command(ik_commands)
 
-        else:
-            jacobian = robot.root_physx_view.get_jacobians()[:, ee_jacobi_idx, :, robot_entity_cfg.joint_ids]
-            ee_pose_w = robot.data.body_state_w[:, robot_entity_cfg.body_ids[0], 0:7]
-            root_pose_w = robot.data.root_state_w[:, 0:7]
-            joint_pos = robot.data.joint_pos[:, robot_entity_cfg.joint_ids]
-            # compute frame in root frame
-            ee_pos_b, ee_quat_b = subtract_frame_transforms(
-                root_pose_w[:, 0:3], root_pose_w[:, 3:7], ee_pose_w[:, 0:3], ee_pose_w[:, 3:7]
-            )
-            # compute the joint commands
-            joint_pos_des = diff_ik_controller.compute(ee_pos_b, ee_quat_b, jacobian, joint_pos)
+        # else:
+        #     jacobian = robot.root_physx_view.get_jacobians()[:, ee_jacobi_idx, :, robot_entity_cfg.joint_ids]
+        #     ee_pose_w = robot.data.body_state_w[:, robot_entity_cfg.body_ids[0], 0:7]
+        #     root_pose_w = robot.data.root_state_w[:, 0:7]
+        #     joint_pos = robot.data.joint_pos[:, robot_entity_cfg.joint_ids]
+        #     # compute frame in root frame
+        #     ee_pos_b, ee_quat_b = subtract_frame_transforms(
+        #         root_pose_w[:, 0:3], root_pose_w[:, 3:7], ee_pose_w[:, 0:3], ee_pose_w[:, 3:7]
+        #     )
+        #     # compute the joint commands
+        #     joint_pos_des = diff_ik_controller.compute(ee_pos_b, ee_quat_b, jacobian, joint_pos)
+
+        if joint_pos_des[:,3] < 1:
+            joint_pos_des[:,3] += 0.001
 
         # apply actions
         robot.set_joint_position_target(joint_pos_des, joint_ids=robot_entity_cfg.joint_ids)

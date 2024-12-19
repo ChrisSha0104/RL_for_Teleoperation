@@ -16,12 +16,12 @@ from rsl_rl.env import VecEnv
 from rsl_rl.modules import ActorCritic, ActorCriticRecurrent, EmpiricalNormalization
 from rsl_rl.utils import store_code_state
 import ast
-from ppo_resnet import PPOWithResNet
-from actor_critic_resnet import ActorCriticResNet
+
+from utils.visual_encoder.ppo_resnet import PPOWithResNet
 from encoded_actor_critic import ActorCriticVisual
 
 
-class OnPolicyRunnerCam:
+class OnPolicyRunnerResidual:
     """On-policy runner for training and evaluation."""
 
     def __init__(self, env: VecEnv, train_cfg, log_dir=None, device="cpu"):
@@ -37,7 +37,7 @@ class OnPolicyRunnerCam:
         else:
             num_critic_obs = num_obs
         actor_critic_class = eval(self.policy_cfg.pop("class_name"))  # ActorCritic
-        actor_critic: ActorCritic | ActorCriticRecurrent | ActorCriticResNet | ActorCriticVisual = actor_critic_class(
+        actor_critic: ActorCritic | ActorCriticRecurrent | ActorCriticVisual = actor_critic_class(
             num_obs, num_critic_obs, self.env.num_actions, **self.policy_cfg
         ).to(self.device)
         alg_class = eval(self.alg_cfg.pop("class_name"))  # PPOWithResNet
