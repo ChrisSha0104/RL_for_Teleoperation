@@ -1,4 +1,4 @@
-# RL_for_Teleoperation
+# Residual Policy for Teleoperation
 
 ### Overview
 This project focuses on developing a **teleoperation interface** designed to enhance the quality of data collected during imitation learning for rigid-body dynamics tasks. The system integrates a **residual reinforcement learning (RL) policy** to refine operator inputs and improve the quality of demonstrations in real-time.
